@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import json
 import boto3
+from botocore.exceptions import ClientError
 import decimal
 
 MQTT_SERVER = "localhost"
@@ -30,20 +31,23 @@ def on_message(client, userdata, msg):
     print('Message Topic: ', msg.topic)
     print('Payload: ', msg.payload)
     print('-------------------------------------------------------')
-
-    if msg.topic == 'parking/status':
-        print('Starting Update Table')
-        table = boto3.resource('dynamodb').Table('parking_spot')
-        response = table.updateItem(
-            Key={'parking_spot_id': str(msg.payload['parking_id'])},
-            UpdateExpression='set parking_status :s',
-            ExpressionAttributeValues={
-                ':s': msg.payload['parking_status']
-            },
-            ReturnValues="UPDATED_NEW"
-        )
-        print(json.dumps(response, indent=4, cls=DecimalEncoder))
-        print('Update Complete')
+    try:
+        if msg.topic == 'parking/status':
+            print('Starting Update Table')
+            table = boto3.resource('dynamodb').Table('parking_spot')
+            response = table.updateItem(
+                Key={'parking_spot_id': str(msg.payload['parking_id'])},
+                UpdateExpression='set parking_status :s',
+                ExpressionAttributeValues={
+                    ':s': msg.payload['parking_status']
+                },
+                ReturnValues="UPDATED_NEW"
+            )
+            print(json.dumps(response, indent=4, cls=DecimalEncoder))
+            print('Update Complete')
+    except ClientError as e:
+        print(e)
+        raise
 
 client = mqtt.Client()
 client.on_connect = on_connect
