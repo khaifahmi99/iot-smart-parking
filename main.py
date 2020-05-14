@@ -35,9 +35,9 @@ def on_message(client, userdata, msg):
         if msg.topic == 'parking/status':
             print('Starting Update Table')
             table = boto3.resource('dynamodb').Table('parking_spot')
-            response = table.updateItem(
+            response = table.update_item(
                 Key={'parking_spot_id': str(msg.payload['parking_id'])},
-                UpdateExpression='set parking_status :s',
+                UpdateExpression='set parking_status = :s',
                 ExpressionAttributeValues={
                     ':s': msg.payload['parking_status']
                 },
