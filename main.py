@@ -31,20 +31,36 @@ def on_message(client, userdata, msg):
     print('Message Topic: ', msg.topic)
     print('Payload: ', msg.payload)
     print('-------------------------------------------------------')
+
+    # update info to DynamoDB Table
     try:
         if msg.topic == 'parking/status':
-            print('Starting Update Table')
+            captured_plate_number = 'null'
+            table = boto3.resource('dynamodb').Table('parking_spot')
+            response = table.get_item(
+                Key={'parking_spot_id': str(msg.payload['parking_id'])}
+            )
+            item = response['Item']
+            is_booked = item['isBooked']
+            # user_plate_number = item.user['user_carplate_number']
+            print(response['Item']['user']['user_carplate_number'])
+            if msg.payload['parking_status'] == "Occupied":
+                # TODO: trigger camera to capture photo
+                print('Capturing Photo')
+                # TODO: use ml model to get car plate number
+                captured_plate_number = "XYZ123"
+                # compare plate number and publish message to ring buzzer if mismatch
             table = boto3.resource('dynamodb').Table('parking_spot')
             response = table.update_item(
                 Key={'parking_spot_id': str(msg.payload['parking_id'])},
-                UpdateExpression='set parking_status = :s',
+                UpdateExpression='set parking_status = :s, captured_plate_number = :n',
                 ExpressionAttributeValues={
-                    ':s': msg.payload['parking_status']
+                    ':s': msg.payload['parking_status'],
+                    ':n': captured_plate_number
                 },
                 ReturnValues="UPDATED_NEW"
             )
-            print(json.dumps(response, indent=4, cls=DecimalEncoder))
-            print('Update Complete')
+            # print(json.dumps(response, indent=4, cls=DecimalEncoder))
     except ClientError as e:
         print(e)
         raise
