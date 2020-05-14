@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <PubSubClient.h>
@@ -13,6 +14,7 @@
 
 const int parking_id = 1;
 String parking_status = "Available";
+String previous_status = "";
 
 const char* ssid = "OPTUS_A75988";
 const char* password = "tubergongs88107";
@@ -27,6 +29,7 @@ PubSubClient client(espClient);
 void setup() {
   WiFi.begin(ssid, password); // connect to Wifi
   Serial.begin(SERIAL_BAUD); // setup serial communication
+  Serial.println("Serial Communication Setup Complete");
   
   pinMode(LED, OUTPUT);
   pinMode(red, OUTPUT);
@@ -53,7 +56,7 @@ void setup() {
   while (!client.connected()) {
     Serial.println("Connecting to MQTT...");
  
-    if (client.connect("security", mqttUser, mqttPassword )) {
+    if (client.connect("parking1", mqttUser, mqttPassword )) {
       Serial.println("connected");  
     } else {
       Serial.print("failed with state ");
@@ -67,10 +70,9 @@ void loop() {
   if (!client.connected()) {
     reconnect();  
   }
-  
   ledReactToDistance(getDistance());
-  delay(1000);
   client.loop();
+  delay(10000);
 }
 
 void ledReactToDistance(int distance) {
@@ -79,8 +81,25 @@ void ledReactToDistance(int distance) {
     tone(buzzer, 10);
     delay(100);
     noTone(buzzer);
+    previous_status = parking_status;
+    parking_status = "Occupied";
   } else {
-    colorLed(0, 255, 0);  
+    colorLed(0, 255, 0);
+    previous_status = parking_status;
+    parking_status = "Available";
+  }
+  
+  StaticJsonBuffer<300> JSONbuffer;
+  JsonObject& JSONencoder = JSONbuffer.createObject();
+
+  JSONencoder["parking_id"] = parking_id;
+  JSONencoder["parking_status"] = parking_status;
+
+  char JSONmessageBuffer[100];
+  JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+  
+  if (parking_status != previous_status) {
+    client.publish("parking/status", JSONmessageBuffer);
   }
 }
 
@@ -122,7 +141,7 @@ void colorLed(int r, int g, int b) {
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
-    if (client.connect("security")) {
+    if (client.connect("parking1")) {
       Serial.println("connected");
     } else {
       Serial.print("failed, rc=");
@@ -147,4 +166,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   Serial.println();
   Serial.println("-----------------------");
+}
+
+// convert String to char
+char* convertToChar(String msg) {
+  int msg_len = msg.length() + 1;
+  char msg_arr[msg_len];
+  msg.toCharArray(msg_arr, msg_len);
+  return msg_arr; 
 }
