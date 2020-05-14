@@ -49,7 +49,7 @@ def on_message(client, userdata, msg):
                 print('Capturing Photo')
                 # TODO: use ml model to get car plate number
                 captured_plate_number = "XYZ123"
-                # compare plate number and publish message to ring buzzer if mismatch
+                # TODO: compare plate number and publish message to ring buzzer if mismatch
             table = boto3.resource('dynamodb').Table('parking_spot')
             response = table.update_item(
                 Key={'parking_spot_id': str(msg.payload['parking_id'])},
