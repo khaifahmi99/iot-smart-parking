@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Parking app</string>
+    <string name="edit_username">Name</string>
+    <string name="edit_phone">Phone</string>
+    <string name="edit_carplate">Car plate</string>
+    <string name="btn_book">Book</string>
+</resources>

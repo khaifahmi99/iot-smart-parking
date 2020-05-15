@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/black"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <EditText
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/edit_username"
+        android:layout_below="@+id/app_toolbar"
+        android:layout_marginTop="50dp"
+        android:layout_centerInParent="true"/>
+
+    <EditText
+        android:id="@+id/user_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/edit_phone"
+        android:layout_below="@+id/user_name"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"/>
+
+    <EditText
+        android:id="@+id/car_plate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/edit_carplate"
+        android:layout_below="@+id/user_phone"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_book"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/car_plate"
+        android:layout_centerInParent="true"
+        android:background="@color/colorAccent"/>
+
+
+</RelativeLayout>
