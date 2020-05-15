@@ -3,8 +3,9 @@ import cv2
 import pytesseract
 import re
 
-watch_cascade = cv2.CascadeClassifier('model/carcascade.xml')
-image = cv2.imread("./captured-pic/car1.jpg")
+def initialise():
+    watch_cascade = cv2.CascadeClassifier('model/carcascade.xml')
+    image = cv2.imread("./captured-pic/car1.jpg")
 
 def detectPlateRough(image_gray,resize_h = 720,en_scale =1.08 ,top_bottom_padding_rate = 0.05):
     if top_bottom_padding_rate>0.2:
@@ -68,13 +69,15 @@ def computeSafeRegion(shape,bounding_rect):
         bottom = max_bottom
     if right > max_right:
         right = max_right
-    return [left,top,right-left,bottom-top]   
+    return [left,top,right-left,bottom-top]
 
-images, original = detectPlateRough(image,image.shape[0],top_bottom_padding_rate=0.1)
-cropped = images[0][0]
-text = pytesseract.image_to_string(cropped, config='--psm 11')
-text = re.sub('[:()/]', '', text)
-print("Detected Number is: ",text)
+def get_plate_number(image):
+    images, original = detectPlateRough(image,image.shape[0],top_bottom_padding_rate=0.1)
+    cropped = images[0][0]
+    text = pytesseract.image_to_string(cropped, config='--psm 11')
+    text = re.sub('[:()/]', '', text)
+    print("Detected Number is: ",text)
+    return text
 
 # plt.imshow(cropped, cmap='gray')
 # plt.show()
