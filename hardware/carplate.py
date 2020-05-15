@@ -6,6 +6,7 @@ import re
 def initialise():
     watch_cascade = cv2.CascadeClassifier('model/carcascade.xml')
     image = cv2.imread("./captured-pic/car1.jpg")
+    return image
 
 def detectPlateRough(image_gray,resize_h = 720,en_scale =1.08 ,top_bottom_padding_rate = 0.05):
     if top_bottom_padding_rate>0.2:
