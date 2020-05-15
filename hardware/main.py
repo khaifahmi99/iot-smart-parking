@@ -3,6 +3,7 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 import decimal
+from carplate import CarRecognition
 
 MQTT_SERVER = "localhost"
 
@@ -68,6 +69,10 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
+
+model = CarRecognition()
+img = model.get_image("captured-pic/car1.jpg")
+print(model.get_plate_number(img))
 
 client.connect(MQTT_SERVER, 1883, 60)
 client.loop_forever()
