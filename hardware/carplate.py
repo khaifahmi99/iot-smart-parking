@@ -81,7 +81,7 @@ class CarRecognition():
         cropped = images[0][0]
         text = pytesseract.image_to_string(cropped, config='--psm 11')
         text = re.sub('[:()/]', '', text)
-        print("Detected Number is: ",text)
+        print("Detected Number is: ",text,"...", end="")
         return text
 
     # plt.imshow(cropped, cmap='gray')
