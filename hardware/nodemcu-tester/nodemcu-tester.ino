@@ -74,6 +74,16 @@ void loop() {
     reconnect();  
   }
   ledReactToDistance(getDistance());
+  if (isBooked) {
+    digitalWrite(LED, LOW);  
+  } else if (!isBooked) {
+    digitalWrite(LED, HIGH);  
+  }
+  Serial.print("Isbooked: ");
+  Serial.println(isBooked);
+  Serial.println(parking_status);
+  Serial.println(previous_status);
+  Serial.println("-----------------------------");
   client.loop();
   delay(10000);
 }
