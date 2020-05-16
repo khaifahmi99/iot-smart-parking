@@ -15,7 +15,7 @@
 const String parking_id = "1";
 String parking_status = "Available";
 String previous_status = "";
-bool isBooked = true;
+String isBooked = "no";
 
 const char* ssid = "OPTUS_A75988";
 const char* password = "tubergongs88107";
@@ -74,18 +74,21 @@ void loop() {
     reconnect();  
   }
   ledReactToDistance(getDistance());
+  StaticJsonBuffer<300> JSONbuffer;
+  JsonObject& JSONencoder = JSONbuffer.createObject();
+
+  JSONencoder["is_booked"] = isBooked;
+
+  char JSONmessageBuffer[100];
+  JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+  client.publish("test", JSONmessageBuffer);
   if (isBooked) {
     digitalWrite(LED, LOW);  
   } else if (!isBooked) {
     digitalWrite(LED, HIGH);  
   }
-  Serial.print("Isbooked: ");
-  Serial.println(isBooked);
-  Serial.println(parking_status);
-  Serial.println(previous_status);
-  Serial.println("-----------------------------");
   client.loop();
-  delay(10000);
+  delay(1000);
 }
 
 void ledReactToDistance(int distance) {
@@ -93,7 +96,7 @@ void ledReactToDistance(int distance) {
     colorLed(255, 0, 0); // LED red
     previous_status = parking_status;
     parking_status = "Occupied";
-  } else if (isBooked & distance > 3) {
+  } else if (isBooked == "yes" & distance > 3) {
     colorLed(255,255,0); //LED yellow
     previous_status = parking_status;
     parking_status = "Available";
@@ -187,7 +190,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(msg);
     if (root[String("parking_id")] == parking_id) {
-      isBooked = root[String("is_booked")];
+      String holder = root[String("status")];
+      if (holder == "yes") {
+        isBooked = "yes";
+      } else if (holder == "no") {
+        isBooked = "no";
+      }
     }    
   }
 
