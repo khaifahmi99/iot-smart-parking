@@ -12,7 +12,7 @@
 #define buzzer D8
 #define SERIAL_BAUD 9600
 
-const int parking_id = 1;
+const String parking_id = "1";
 String parking_status = "Available";
 String previous_status = "";
 
@@ -64,6 +64,7 @@ void setup() {
       delay(2000);
     }
   }
+  client.subscribe("parking/authentication");
 }
 
 void loop() {
@@ -78,15 +79,13 @@ void loop() {
 void ledReactToDistance(int distance) {
   if (distance <= 3) {
     colorLed(255, 0, 0);
-    tone(buzzer, 10);
-    delay(100);
-    noTone(buzzer);
     previous_status = parking_status;
     parking_status = "Occupied";
   } else {
     colorLed(0, 255, 0);
     previous_status = parking_status;
     parking_status = "Available";
+    noTone(buzzer);
   }
   
   StaticJsonBuffer<300> JSONbuffer;
@@ -166,6 +165,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   Serial.println();
   Serial.println("-----------------------");
+
+  if (strcmp(topic, "parking/authentication") == 0) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(msg);
+    if (root[String("parking_id")] == parking_id) {
+      String status = root[String("status")];
+      if (status == "mismatch") {
+        tone(buzzer, 10);
+      } else {
+        colorLed(0,0,255);
+        noTone(buzzer);  
+      }
+    }
+  }
 }
 
 // convert String to char
