@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import cv2
 import pytesseract
 import re
+import time
 
 class CarRecognition():
 
@@ -11,6 +12,21 @@ class CarRecognition():
     def get_image(self, image_path):
         image = cv2.imread(image_path)
         return image
+
+    def capture_photo(self):
+        current_time = int(time.time())
+        cam = cv2.VideoCapture(0)
+        if not cam.isOpened():
+            raise Exception("Could not open video device")
+
+        for i in range(30):
+            temp = cam.read()
+            retval, frame = cam.read()
+            if retval is not True:
+                raise ValueError("Cannot read frame")
+        
+        cv2.imwrite('captured-pic/opencv_pic1.jpg', frame)
+        del(cam)
 
     def detectPlateRough(self, image_gray,resize_h = 720,en_scale =1.08 ,top_bottom_padding_rate = 0.05):
         if top_bottom_padding_rate>0.2:

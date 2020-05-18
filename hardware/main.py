@@ -51,8 +51,9 @@ def on_message(client, userdata, msg):
             if msg.payload['parking_status'] == "Occupied":
                 # TODO: trigger camera to capture photo
                 print('Capturing Photo...', end="")
-                # run model on captured photo
                 model = CarRecognition()
+                model.capture_photo()
+                # run model on captured photo
                 img = model.get_image("captured-pic/car1.jpg")
                 captured_plate_number = model.get_plate_number(img)
                 captured_plate_number = "XYZ123"
