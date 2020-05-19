@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description" content="Group Assignment IoT" />
+	<meta name="keywords" content="HTML, CSS" />
+	<meta name="author" content="Ruby Mae Orfiano" />
+	<title>Parking Slot Payment</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" type="text/css" href="styles/style.css"/>
+	<link rel="stylesheet" type="text/css" href="styles/responsive.css"/>
+</head>
+<body>
+	<form id="paymentform" method="post" action=>
+		<h2>Personal Details</h2>
+		<p>Full Name: <span id="confirm_name"></span></p>
+		<p>Phone Number: <span id="confirm_phoneNum"></span></p>
+		<p>Email: <span id="confirm_emailAdd"></span></p>
+		<p>Driver's License Number: <span id="confirm_license"></span></p>
+		<p>Car's Plate Number: <span id="confirm_plateNum"></span></p>
+		
+		<input type="hidden" name="full_name" id="full_name" />
+		<input type="hidden" name="phonenum" id="phonenum" />
+		<input type="hidden" name="emailAdd" id="emailAdd" />
+		<input type="hidden" name="license" id="license" />
+		<input type="hidden" name="plateNum" id="plateNum" />
+		<br /><br />
+
+		<h2>Credit Card Details</h2>
+		<h3 id="creditCard">Credit card type: </h3>
+			&nbsp;&nbsp;&nbsp;&nbsp;<label for="visa">Visa</label> 
+			<input type="radio" id="visa" name="card" value="Visa" />
+			&nbsp;&nbsp;<label for="mcard">Master Card</label> 
+			<input type="radio" id="mcard" name="card" value="Master Card"/>
+			&nbsp;&nbsp;<label for="american">American Express</label> 
+			<input type="radio" id="american" name="card" value="American Express"/>
+		<br /><br />
+		<label for="name">Name: </label>
+		<input type="text" name="name" id="name" /><br /><br />
+		<label for="card_no">Credit card number: </label>
+		<input type="text" name="card_no" id="card_no"/><br /><br />
+		<label for="exp_date">Credit card expiry date: </label> 
+		<input type="text" name= "exp_date" id="exp_date" placeholder="mm/yy"  size="10" /><br /><br />
+		<label for="cvv">Card verification value: </label>
+		<input type="text" name="cvv" id="cvv"/><br /><br />
+
+		<input type= "submit" value="Pay"/>
+		<button type="button" id="cancelButton">Cancel</button>
+		
+	</form>
+</body>
+</html>
