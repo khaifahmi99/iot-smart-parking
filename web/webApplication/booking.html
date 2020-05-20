@@ -3,16 +3,14 @@
 <head>
 	<meta charset="utf-8"/>
 	<meta name="description" content="Group Assignment IoT" />
-	<meta name="keywords" content="HTML, CSS" />
-	<meta name="author" content="Ruby Mae Orfiano" />
 	<title>Parking Slot Booking</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" type="text/css" href="styles/style.css"/>
-	<link rel="stylesheet" type="text/css" href="styles/responsive.css"/>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
 <body>
 	
-	<form id="bookform" method="post" action="payment.html" class="form_details" novalidate="novalidate" >
+	<form id="bookform" method="post" action="http://127.0.0.1:5000/paySlot" class="form_details" novalidate="novalidate" >
 		<h1>Booking Form</h1>
 		<h2>Personal Details</h2>
 		
