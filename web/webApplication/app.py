@@ -4,8 +4,6 @@ from api import get_parking_info
 import boto3
 import json
 
-
-
 app = Flask(__name__)
 
 @app.route('/home')
@@ -34,13 +32,6 @@ def paySlot():
     if request.method == 'POST':  
         return redirect(url_for("payment"))  
     return redirect(url_for("regInfo"))  
-
-
-if __name__ == '__main__':
-	app.run()
-
-
-
 
 @app.route('/api')
 def api():
