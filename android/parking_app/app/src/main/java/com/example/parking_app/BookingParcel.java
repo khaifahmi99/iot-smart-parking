@@ -5,13 +5,17 @@ import android.os.Parcelable;
 
 public class BookingParcel implements Parcelable {
 
-    String name;
-    String carPlate;
-    String phone;
-    long timestamp;
+    private String parkingSpotId;
+    private String name;
+    private String carPlate;
+    private String phone;
+    private String timestamp;
+    private String userId;
 
 
-    public BookingParcel(String aName, String aCarPlate, String aPhone, Long aTimestamp){
+    public BookingParcel(String aParkingSpotId, String aUserId, String aName, String aCarPlate, String aPhone, String aTimestamp) {
+        parkingSpotId = aParkingSpotId;
+        userId = aUserId;
         name = aName;
         carPlate = aCarPlate;
         phone = aPhone;
@@ -20,10 +24,12 @@ public class BookingParcel implements Parcelable {
 
 
     private BookingParcel(Parcel in) {
-       name = in.readString();
-       carPlate = in.readString();
-       phone = in.readString();
-       timestamp = in.readLong();
+        parkingSpotId = in.readString();
+        userId = in.readString();
+        name = in.readString();
+        carPlate = in.readString();
+        phone = in.readString();
+        timestamp = in.readString();
     }
 
     @Override
@@ -33,10 +39,12 @@ public class BookingParcel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(parkingSpotId);
+        dest.writeString(userId);
         dest.writeString(name);
         dest.writeString(carPlate);
         dest.writeString(phone);
-        dest.writeLong(timestamp);
+        dest.writeString(timestamp);
     }
 
 
@@ -51,6 +59,13 @@ public class BookingParcel implements Parcelable {
         }
     };
 
+    public String getParkingSpotId() {
+        return parkingSpotId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getName() {
         return name;
@@ -65,7 +80,9 @@ public class BookingParcel implements Parcelable {
         return phone;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
+
+
 }
