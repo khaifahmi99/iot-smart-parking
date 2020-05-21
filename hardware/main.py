@@ -48,17 +48,16 @@ def on_message(client, userdata, msg):
             is_booked = item['isBooked']
             user_plate_number = item['user']['user_carplate_number'] if is_booked else None
             print(user_plate_number)
-            if msg.payload['parking_status'] == "Available":
+            if msg.payload['parking_status'] == "Available" and item['user'] != None:
                 print('Parking Status is Available')
-                user = item['user']
-                if user != None:
-                    has_paid = user['user_hasMadePayment']
-                    status = 'paid' if has_paid else 'has_paid'
-                    payload = {
-                        'parking_id': str(msg.payload['parking_id']),
-                        'status': status
-                    }
-                    client.publish('parking/paymentStatus', json.dumps(payload))
+                if user['user_hasParked']
+                has_paid = user['user_hasMadePayment']
+                status = 'paid' if has_paid else 'has_paid'
+                payload = {
+                    'parking_id': str(msg.payload['parking_id']),
+                    'status': status
+                }
+                client.publish('parking/paymentStatus', json.dumps(payload))
             if msg.payload['parking_status'] == "Occupied":
                 # TODO: trigger camera to capture photo
                 print('Capturing Photo...', end="")
