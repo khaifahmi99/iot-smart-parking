@@ -1,14 +1,12 @@
 from flask import *
 import aws_controller
-from api import get_parking_info
-import boto3
-import json
 
 app = Flask(__name__)
 
 @app.route('/home')
 def home():
-	return render_template('book_slot.html')
+	spots = aws_controller.get_spots_info()
+	return render_template('book_slot.html', spots=spots)
 
 @app.route('/regInfo')
 def regInfo():
@@ -18,27 +16,27 @@ def regInfo():
 def payment():
 	return render_template('payment.html')
 
-
-@app.route('/validateSlot', methods = ["POST"])  
-def validate():
-	message = ''
+@app.route('/validateSlot', methods = ["POST", "GET"])  
+def validate_book_slot():
 	if request.method == 'POST':
-		return redirect(url_for("regInfo"))  
+		slots = request.form.getlist('slot')
+		if len(slots) > 0:
+			return render_template('booking.html', data = request.form)
 	return redirect(url_for("home"))
+ 
+@app.route('/validateBooking', methods = ["POST"])  
+def validate_booking():
+	if request.method == 'POST':
+		message = "Success!"
+		validData = aws_controller.validate_booking(request.form)
+		if validData:
+			validData = aws_controller.save_booking(validData)
+			return render_template('payment.html', data = validData)
+		else:
+			error = "Please complete form."
+			return render_template('booking.html', data = request.form, error = error)
 
-
-@app.route('/paySlot', methods = ["POST"])  
-def paySlot():  
-    if request.method == 'POST':  
-        return redirect(url_for("payment"))  
-    return redirect(url_for("regInfo"))  
-
-@app.route('/api')
-def api():
-	json_obj = get_parking_info()
-	return json_obj
+	return render_template('payment.html', message=message, data=validData)
 
 if __name__ == '__main__':
 	app.run()
-
-

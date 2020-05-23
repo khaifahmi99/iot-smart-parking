@@ -7,9 +7,13 @@ and (max-width : 1024px)  {
 
 	/* HOME PAGE */
 	.slot_item {
-	  width: 23%;
+	  width: 18%;
 	  margin: 10px 1%;
 
+	}
+
+	.slot_item_content label.desc{
+		font-size: 1em;
 	}
 
 	.form{
@@ -17,15 +21,21 @@ and (max-width : 1024px)  {
 	  padding: 20px;
 	  margin: 0;
 	}
+
+
 }
 
 /* Smaller than ipad */
 @media screen and (max-width: 767px){
 	/* HOME PAGE */
 	.slot_item {
-	  width: 45%;
+	  width: 44%;
 	  margin: 10px 0px;
 	  padding: 10px;
+	}
+
+	.slot_item_content label.desc{
+		font-size: 1em;
 	}
 
 	.gallery {
@@ -33,5 +43,6 @@ and (max-width : 1024px)  {
     	width: 100%;
     	border: 0;
 	}
+
 	
 }
