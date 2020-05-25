@@ -3,3 +3,4 @@ web/.DS_Store
 android/.DS_Store
 hardware/.DS_Store
 ml/.DS_Store
+android/parking_app/app/src/main/java/com/example/parking_app/dynamodb/DynamoDBConnector.java
