@@ -74,19 +74,6 @@ void loop() {
     reconnect();  
   }
   ledReactToDistance(getDistance());
-  StaticJsonBuffer<300> JSONbuffer;
-  JsonObject& JSONencoder = JSONbuffer.createObject();
-
-  JSONencoder["is_booked"] = isBooked;
-
-  char JSONmessageBuffer[100];
-  JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-  client.publish("test", JSONmessageBuffer);
-  if (isBooked) {
-    digitalWrite(LED, LOW);  
-  } else if (!isBooked) {
-    digitalWrite(LED, HIGH);  
-  }
   client.loop();
   delay(1000);
 }
@@ -207,8 +194,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
       if (status == "mismatch") {
         tone(buzzer, 10);
       } else {
-        colorLed(0,0,255);
+        colorLed(0,0,255); // make led blue
+        delay(2000);
         noTone(buzzer);  
+      }
+    }
+
+    if (strcmp(topic, "parking/paymentStatus") == 0) {
+      DynamicJsonBuffer jsonBuffer;
+      JsonObject& root = jsonBuffer.parseObject(msg);
+      if (root[String("parking_id")] == parking_id) {
+        String status = root[String("status")];
+        if (status == "not paid") {
+          tone(buzzer, 10);  
+        } else {
+          noTone(buzzer);  
+        }
       }
     }
   }
