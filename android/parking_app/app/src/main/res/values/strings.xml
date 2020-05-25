@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Parking app</string>
+    <string name="activity_payment">Payment</string>
+    <string name="edit_username">Name</string>
+    <string name="edit_phone">Phone</string>
+    <string name="edit_carplate">Car plate</string>
+    <string name="text_booking">Your booking id is 466499</string>
+    <string name="btn_book">Book</string>
+    <string name="btn_pay">Pay</string>
+    <string name="btn_confirm_payment">Confirm Payment</string>
+    <string name="text_parking_spot">Parking spot:</string>
+    <string name="text_spinner_timestamp">Date:</string>
+</resources>
