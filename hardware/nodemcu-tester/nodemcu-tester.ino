@@ -67,6 +67,7 @@ void setup() {
   }
   client.subscribe("parking/authentication");
   client.subscribe("parking/booking");
+  client.subscribe("parking/paymentStatus");
 }
 
 void loop() {
@@ -199,20 +200,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
         noTone(buzzer);  
       }
     }
+  }
 
-    if (strcmp(topic, "parking/paymentStatus") == 0) {
-      DynamicJsonBuffer jsonBuffer;
-      JsonObject& root = jsonBuffer.parseObject(msg);
-      if (root[String("parking_id")] == parking_id) {
-        String status = root[String("status")];
-        if (status == "not paid") {
-          tone(buzzer, 10);  
-        } else {
-          noTone(buzzer);  
-        }
+  if (strcmp(topic, "parking/paymentStatus") == 0) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(msg);
+    if (root[String("parking_id")] == parking_id) {
+      String status = root[String("status")];
+      if (status == "not paid") {
+        tone(buzzer, 10);
+        delay(5000);
+      } else {
+        noTone(buzzer);
       }
     }
   }
+  
 }
 
 // convert String to char
