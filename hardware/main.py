@@ -40,6 +40,7 @@ def on_message(client, userdata, msg):
     try:
         if msg.topic == 'parking/status':
             captured_plate_number = 'null'
+            has_parked = False
             table = boto3.resource('dynamodb').Table('parking_spot')
             response = table.get_item(
                 Key={'parking_spot_id': str(msg.payload['parking_id'])}
@@ -48,16 +49,24 @@ def on_message(client, userdata, msg):
             is_booked = item['isBooked']
             user_plate_number = item['user']['user_carplate_number'] if is_booked else None
             print(user_plate_number)
-            if msg.payload['parking_status'] == "Available" and item['user'] != None:
-                print('Parking Status is Available')
-                if user['user_hasParked']
-                has_paid = user['user_hasMadePayment']
-                status = 'paid' if has_paid else 'has_paid'
-                payload = {
-                    'parking_id': str(msg.payload['parking_id']),
-                    'status': status
-                }
-                client.publish('parking/paymentStatus', json.dumps(payload))
+
+            if msg.payload['parking_status'] == "Available":
+                print('parking is available')
+                if item['user'] != None and item['user_has_parked']:
+                    print('check if user has paid')
+                    has_paid = item['user']['user_hasMadePayment']
+                    print(has_paid)
+                    if has_paid:
+                        status = 'paid'
+                    else:
+                        status = 'not paid'
+                    payload = {
+                        'parking_id': str(msg.payload['parking_id']),
+                        'status': status
+                    }
+                    print(status)
+                    client.publish('parking/paymentStatus', json.dumps(payload))
+
             if msg.payload['parking_status'] == "Occupied":
                 # TODO: trigger camera to capture photo
                 print('Capturing Photo...', end="")
@@ -72,6 +81,7 @@ def on_message(client, userdata, msg):
                 if user_plate_number != None and user_plate_number == captured_plate_number:
                     print('publishing topic: parking/authentication, status: match...')
                     payload = {'parking_id': str(msg.payload['parking_id']), 'status': 'match'}
+                    has_parked = True
                     client.publish('parking/authentication', json.dumps(payload))
                 elif user_plate_number != None and user_plate_number != captured_plate_number:
                     print('publishing topic: parking/authentication, status: mismatch...')
@@ -80,10 +90,11 @@ def on_message(client, userdata, msg):
             table = boto3.resource('dynamodb').Table('parking_spot')
             response = table.update_item(
                 Key={'parking_spot_id': str(msg.payload['parking_id'])},
-                UpdateExpression='set parking_status = :s, captured_plate_number = :n',
+                UpdateExpression='set parking_status = :s, captured_plate_number = :n, user_has_parked = :p',
                 ExpressionAttributeValues={
                     ':s': msg.payload['parking_status'],
-                    ':n': captured_plate_number
+                    ':n': captured_plate_number,
+                    ':p': has_parked
                 },
                 ReturnValues="UPDATED_NEW"
             )
