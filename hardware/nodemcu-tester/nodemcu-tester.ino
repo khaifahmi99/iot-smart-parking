@@ -12,9 +12,10 @@
 #define buzzer D8
 #define SERIAL_BAUD 9600
 
-const int parking_id = 1;
+const String parking_id = "1";
 String parking_status = "Available";
 String previous_status = "";
+String isBooked = "no";
 
 const char* ssid = "OPTUS_A75988";
 const char* password = "tubergongs88107";
@@ -64,6 +65,8 @@ void setup() {
       delay(2000);
     }
   }
+  client.subscribe("parking/authentication");
+  client.subscribe("parking/booking");
 }
 
 void loop() {
@@ -72,21 +75,24 @@ void loop() {
   }
   ledReactToDistance(getDistance());
   client.loop();
-  delay(10000);
+  delay(1000);
 }
 
 void ledReactToDistance(int distance) {
   if (distance <= 3) {
-    colorLed(255, 0, 0);
-    tone(buzzer, 10);
-    delay(100);
-    noTone(buzzer);
+    colorLed(255, 0, 0); // LED red
     previous_status = parking_status;
     parking_status = "Occupied";
-  } else {
-    colorLed(0, 255, 0);
+  } else if (isBooked == "yes" & distance > 3) {
+    colorLed(255,255,0); //LED yellow
     previous_status = parking_status;
     parking_status = "Available";
+    noTone(buzzer);
+  } else {
+    colorLed(0, 255, 0); // lED green
+    previous_status = parking_status;
+    parking_status = "Available";
+    noTone(buzzer);
   }
   
   StaticJsonBuffer<300> JSONbuffer;
@@ -166,6 +172,47 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   Serial.println();
   Serial.println("-----------------------");
+
+  if (strcmp(topic, "parking/booking") == 0) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(msg);
+    if (root[String("parking_id")] == parking_id) {
+      String holder = root[String("status")];
+      if (holder == "yes") {
+        isBooked = "yes";
+      } else if (holder == "no") {
+        isBooked = "no";
+      }
+    }    
+  }
+
+  if (strcmp(topic, "parking/authentication") == 0) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(msg);
+    if (root[String("parking_id")] == parking_id) {
+      String status = root[String("status")];
+      if (status == "mismatch") {
+        tone(buzzer, 10);
+      } else {
+        colorLed(0,0,255); // make led blue
+        delay(2000);
+        noTone(buzzer);  
+      }
+    }
+
+    if (strcmp(topic, "parking/paymentStatus") == 0) {
+      DynamicJsonBuffer jsonBuffer;
+      JsonObject& root = jsonBuffer.parseObject(msg);
+      if (root[String("parking_id")] == parking_id) {
+        String status = root[String("status")];
+        if (status == "not paid") {
+          tone(buzzer, 10);  
+        } else {
+          noTone(buzzer);  
+        }
+      }
+    }
+  }
 }
 
 // convert String to char
