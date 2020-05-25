@@ -2,7 +2,7 @@ import boto3
 import json
 
 def get_parking_info():
-    table = boto3.resource('dynamodb').Table('parking_spot')
+    table = boto3.resource('dynamodb', region_name='ap-southeast-2').Table('parking_spot')
     response = table.scan()
     parking_spots = response['Items']
 
