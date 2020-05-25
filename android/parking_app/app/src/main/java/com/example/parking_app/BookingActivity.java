@@ -102,7 +102,7 @@ public class BookingActivity extends AppCompatActivity implements Observer, Adap
 
 
         //Create a user and fill the user with the retrieved input
-        User user = new User(String.valueOf(userId), carPlate, name, phone, false, "");
+        User user = new User(userId, carPlate, name, phone, false, "", 0.0);
 
         //Update the parking_spot table based on the booking
         UpdateParkingSpotTask task = new UpdateParkingSpotTask(parkingSpotId, user, "Booking", tsBooking);

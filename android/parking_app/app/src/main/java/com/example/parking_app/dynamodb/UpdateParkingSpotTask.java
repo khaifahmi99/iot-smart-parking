@@ -3,25 +3,14 @@ package com.example.parking_app.dynamodb;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.amazonaws.mobileconnectors.dynamodbv2.document.QueryFilter;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.Search;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.Table;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.UpdateItemOperationConfig;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.Document;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.datatype.Primitive;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.amazonaws.services.dynamodbv2.model.UpdateItemRequest;
 import com.amazonaws.services.dynamodbv2.model.UpdateItemResult;
-import com.example.parking_app.BookingParcel;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UpdateParkingSpotTask extends AsyncTask<AmazonDynamoDB, Void, Boolean> {
@@ -58,12 +47,12 @@ public class UpdateParkingSpotTask extends AsyncTask<AmazonDynamoDB, Void, Boole
 
             //User map
             HashMap<String, AttributeValue> userMap = new HashMap<String, AttributeValue>();
-            userMap.put("ts_payment", new AttributeValue().withS(user.getTsPayment()));
-            userMap.put("user_carplate_number", new AttributeValue().withS(user.getUserCarPlate()));
-            userMap.put("user_id", new AttributeValue().withN(user.getUserId()));
-            userMap.put("user_hasMadePayment", new AttributeValue().withBOOL(user.isUserHasMadePayment()));
-            userMap.put("user_name", new AttributeValue().withS(user.getUserName()));
-            userMap.put("user_phone", new AttributeValue().withS(user.getUserPhone()));
+            userMap.put("ts_payment", new AttributeValue().withS(user.getTs_payment()));
+            userMap.put("user_carplate_number", new AttributeValue().withS(user.getUser_carplate_number()));
+            userMap.put("user_id", new AttributeValue().withN(String.valueOf(user.getUser_id())));
+            userMap.put("user_hasMadePayment", new AttributeValue().withBOOL(user.isUser_hasMadePayment()));
+            userMap.put("user_name", new AttributeValue().withS(user.getUser_name()));
+            userMap.put("user_phone", new AttributeValue().withS(user.getUser_phone()));
 
 
             //Expression

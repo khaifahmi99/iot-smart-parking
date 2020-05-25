@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.example.parking_app.dynamodb.DynamoDBConnector;
+import com.example.parking_app.dynamodb.SaveUserTask;
 import com.example.parking_app.dynamodb.UpdateParkingSpotTask;
 import com.example.parking_app.dynamodb.User;
 
@@ -146,12 +147,16 @@ public class PaymentActivity extends AppCompatActivity {
         //Connect to dynamodb
         AmazonDynamoDB ddb = DynamoDBConnector.ConnectToDynamoDb();
 
-        User user = new User(bookingParcel.getUserId(), bookingParcel.getCarPlate(), bookingParcel.getName(), bookingParcel.getPhone()
-                ,true, tsPayment.toString());
+        User user = new User(DynamoDBConnector.GiveRandomNumber(15000), bookingParcel.getCarPlate(), bookingParcel.getName(), bookingParcel.getPhone()
+                ,true, tsPayment.toString(), fee);
 
         //Update the parking spot table based on the payment
-        UpdateParkingSpotTask task = new UpdateParkingSpotTask(bookingParcel.getParkingSpotId(), user, "Payment");
-        task.execute(ddb);
+        UpdateParkingSpotTask updateTask = new UpdateParkingSpotTask(bookingParcel.getParkingSpotId(), user, "Payment");
+        updateTask.execute(ddb);
+
+        //Save user into the users table
+        SaveUserTask saveTask =  new SaveUserTask(user);
+        saveTask.execute(ddb);
 
         //Create a new intent to BookingActivity as payment has been done
         Intent bookingActivityIntent = new Intent(this, BookingActivity.class);
