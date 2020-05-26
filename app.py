@@ -40,9 +40,17 @@ def validate_booking():
 
 	return render_template('payment.html', message=message, data=validData)
 
-@app.route('/api')
-def api():
+@app.route('/api/current')
+def api_current():
 	return get_parking_info()
+
+@app.route('/api/overview')
+def api_overview():
+	return get_overview_info()
+
+@app.route('/api/users')
+def api_users():
+	return get_user_info()
 
 if __name__ == '__main__':
 	app.run()
