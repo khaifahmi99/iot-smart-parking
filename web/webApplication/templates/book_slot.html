@@ -22,9 +22,14 @@
 			  			<label for="slot[]" class="desc">
 			  				{{ spot['parking_status'] }}
 			  			</label>
-			  			{% if spot['parking_status'] ==  'Available' %}
+			  			{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == false %}
 							<input type="checkbox" name="slot" value="{{ spot['parking_spot_id'] }}"/> 
 						{% endif %}
+
+						{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == true %}
+							<p style="color:red;font-size: 0.8em">Booked</p>
+						{% endif %}
+
 			  		</div>
 		  		</div>
 			{% endfor %}
