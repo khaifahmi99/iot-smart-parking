@@ -16,6 +16,7 @@
 <body>
 
   <div class="container">
+    
 
     <div class="row mt-5 mb-5">
       <h1 id="title"></h1>
@@ -26,13 +27,55 @@
 
     <div class="row mt-5 mb-5">
       <div class="col-6">
-        <h6 class="text-center">Parking Status</h6>
-        <canvas id="parkingStatus" width="400" height="400"></canvas>
+        <div>
+          <h6 class="text-center">Parking Status</h6>
+          <div id="parkingSpinner" class="spinner-border mx-auto" style="display: block;" role="status" ></div>
+        </div>
+         <canvas id="chartParkingStatus" width="400" height="400"></canvas>
       </div>
       <div class="col-6">
-        <h6 class="text-center">Booking</h6>
-        <canvas id="booking" width="400" height="400"></canvas>
+        <div>
+          <h6 class="text-center">Booking Status</h6>
+          <div id="bookingSpinner" class="spinner-border mx-auto" style="display: block;" role="status"></div>
+        </div>
+        <canvas id="chartBookingStatus" width="400" height="400"></canvas>
+       </div>
+    </div>
+
+
+    <div class="row mt-5 mb-5">
+
+      <div class="col-6">
+        <div>
+          <h6 class="text-center">Users per date</h6>
+          <div id="usersSpinner" class="spinner-border mx-auto" style="display: block;" role="status"></div>
+        </div>
+        <canvas id="chartUsersPerDate" width="400" height="400"></canvas>
       </div>
+      <div class="col-6">
+        <div>
+          <h6 class="text-center">Revenue per date</h6>
+          <div id="revenueSpinner" class="spinner-border mx-auto" style="display: block;" role="status" ></div>
+        </div>
+        <canvas class="mx-auto" id="chartRevenuePerDate" width="600" height="600"></canvas>
+      </div>
+
+    </div>
+
+    <div class="row mt-5 mb-5">
+
+      <div class="col-6">
+        <div>
+          <h6 class="text-center">Parking Overview</h6>
+          <div id="overviewSpinner" class="spinner-border mx-auto" style="display: block;" role="status" ></div>
+        </div>
+        <canvas id="chartParkingOverview" width="400" height="400"></canvas>
+      </div>
+      <div class="col-6">
+        <!-- <h6 class="text-center">Revenue per date</h6>
+        <canvas class="mx-auto" id="chartRevenuePerDate" width="600" height="600"></canvas> -->
+      </div>
+
     </div>
 
   </div>
