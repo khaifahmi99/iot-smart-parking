@@ -40,6 +40,10 @@ def validate_booking():
 
 	return render_template('payment.html', message=message, data=validData)
 
+@app.route('/visualisation')
+def visualisation():
+	return render_template('visualisation.html')
+
 @app.route('/api/current')
 def api_current():
 	return get_parking_info()
