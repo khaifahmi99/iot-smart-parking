@@ -4,11 +4,10 @@ from random import randrange
 import datetime
 from datetime import datetime
 
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-2')
 
 
 def get_spots_info():
-
 	#call the table
 	table = dynamodb.Table('parking_spot') 
 	response = table.scan()
@@ -61,8 +60,6 @@ def save_booking(data):
 	plateNum = data.get('plateNum')
 	license = data.get('license')
 
-	
-
 	users_table = dynamodb.Table('users') 
 
 	users_table.put_item(
@@ -76,9 +73,4 @@ def save_booking(data):
 			'user_phone' : phonenum
 		}
 	)
-
-	
-
-
-
 	return data
