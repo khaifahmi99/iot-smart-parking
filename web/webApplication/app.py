@@ -1,8 +1,10 @@
 from flask import *
 import aws_controller
+from api import *
 
 app = Flask(__name__)
 
+@app.route('/')
 @app.route('/home')
 def home():
 	spots = aws_controller.get_spots_info()
@@ -37,6 +39,22 @@ def validate_booking():
 			return render_template('booking.html', data = request.form, error = error)
 
 	return render_template('payment.html', message=message, data=validData)
+
+@app.route('/visualisation')
+def visualisation():
+	return render_template('visualisation.html')
+
+@app.route('/api/current')
+def api_current():
+	return get_parking_info()
+
+@app.route('/api/overview')
+def api_overview():
+	return get_overview_info()
+
+@app.route('/api/users')
+def api_users():
+	return get_user_info()
 
 if __name__ == '__main__':
 	app.run()

@@ -7,45 +7,35 @@
 	<meta name="author" content="Ruby Mae Orfiano" />
 	<title>Parking Slot</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"/>
+	<script src="{{url_for('static',filename='js/validate.js')}}"></script>
+	<link rel ="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
 <body>
-	<form id="slotform" method="post" action="booking.html" novalidate="novalidate" >
+	<form id="slotform" method="POST" action="http://127.0.0.1:5000/validateSlot" >
 		<h1>Pick a Parking Slot</h1>
 		<section class="slot">	
-			<div class="slot_item">
-				<div class="slot_item_content">
-					<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 78.1kb" />
-		  			<label for="s1" class="desc">Slot 1</label> 
-					<input type="checkbox" id="s1" name="s1" value="Slot 1" /> 
+			{% for spot in spots %}
+				<div class="slot_item">
+					<div class="slot_item_content">
+						<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 78.1kb" />
+			  			<label for="slot[]" class="desc">
+			  				{{ spot['parking_status'] }}
+			  			</label>
+			  			{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == false %}
+							<input type="checkbox" name="slot" value="{{ spot['parking_spot_id'] }}"/> 
+						{% endif %}
+
+						{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == true %}
+							<p style="color:red;font-size: 0.8em">Booked</p>
+						{% endif %}
+
+			  		</div>
 		  		</div>
-		  	</div>
-		  	<div class="slot_item">
-		  		<div class="slot_item_content">
-					<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 24.4kb" />
-			  		<label for="s2" class="desc">Slot 2</label> 
-					<input type="checkbox" id="s2" name="s2" value="Slot 2" /> 
-			  	</div>
-		  	</div>
-		  	<div class="slot_item">
-		  		<div class="slot_item_content">
-					<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 93.5kb" />
-		  			<label for="s3" class="desc">Slot 3</label> 
-					<input type="checkbox" id="s3" name="s3" value="Slot 3" /> 
-		  		</div>
-		  	</div>
-		  	<div class="slot_item">
-		  		<div class="slot_item_content">
-					<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 93.5kb" />
-		  			<label for="s4" class="desc">Slot 4</label> 
-					<input type="checkbox" id="s4" name="s4" value="Slot 4" /> 
-		  		</div>
-		  	</div>
-		  		
+			{% endfor %}
 		</section>
 
-		<input type= "submit" value="Next"/>
+		<input type= "submit" value="Book"/>
 	</form>
 
 </body>
