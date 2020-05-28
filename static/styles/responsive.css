@@ -1,0 +1,48 @@
+
+/*iPad in portrait & landscape*/
+@media screen 
+and (min-width : 768px) 
+and (max-width : 1024px)  {
+
+
+	/* HOME PAGE */
+	.slot_item {
+	  width: 18%;
+	  margin: 10px 1%;
+
+	}
+
+	.slot_item_content label.desc{
+		font-size: 1em;
+	}
+
+	.form{
+	  width: auto;
+	  padding: 20px;
+	  margin: 0;
+	}
+
+
+}
+
+/* Smaller than ipad */
+@media screen and (max-width: 767px){
+	/* HOME PAGE */
+	.slot_item {
+	  width: 44%;
+	  margin: 10px 0px;
+	  padding: 10px;
+	}
+
+	.slot_item_content label.desc{
+		font-size: 1em;
+	}
+
+	.gallery {
+		margin: 0;
+    	width: 100%;
+    	border: 0;
+	}
+
+	
+}

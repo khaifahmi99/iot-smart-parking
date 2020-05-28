@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="description" content="Group Assignment IoT" />
+	<meta name="keywords" content="HTML, CSS" />
+	<meta name="author" content="Ruby Mae Orfiano" />
+	<title>Parking Slot</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<script src="{{url_for('static',filename='js/validate.js')}}"></script>
+	<link rel ="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
+</head>
+<body>
+	<form id="slotform" method="POST" action="http://127.0.0.1:5000/validateSlot" >
+		<h1>Pick a Parking Slot</h1>
+		<section class="slot">	
+			{% for spot in spots %}
+				<div class="slot_item">
+					<div class="slot_item_content">
+						<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 78.1kb" />
+			  			<label for="slot[]" class="desc">
+			  				{{ spot['parking_status'] }}
+			  			</label>
+			  			{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == false %}
+							<input type="checkbox" name="slot" value="{{ spot['parking_spot_id'] }}"/> 
+						{% endif %}
+
+						{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == true %}
+							<p style="color:red;font-size: 0.8em">Booked</p>
+						{% endif %}
+
+			  		</div>
+		  		</div>
+			{% endfor %}
+		</section>
+
+		<input type= "submit" value="Book"/>
+	</form>
+
+</body>
+</html>
