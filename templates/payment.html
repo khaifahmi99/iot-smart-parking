@@ -11,21 +11,45 @@
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
 <body>
-	<h1>Receipt</h1>
-	{% for slot in data.getlist('slot') %}
-		<p>Slot {{ slot }}</p>
-	{% endfor %}
-	
-	{% if data %}
-		<div class="invoice">
-			<div>Name: {{ data.get('full_name') }}</div>
-			<div>Phone Number: {{ data.get('phonenum') }}</div>
-			<div>Email: {{ data.get('emailAdd') }}</div>
-			<div>License Number: {{ data.get('license') }}</div>
-			<div>Plate Number: {{ data.get('plateNum') }}</div><br/>
-			<div>Amount Paid: ${{ data.price }}</div>
-		</div>
-	{% endif %}
+	<form id="paymentform" method="post" action="http://127.0.0.1:5000/validatePayment" class="form_details" >
+		<h1>Booking Details</h1>
 		
+		{% for slot in data.getlist('slot') %}
+			<div class="slotNum"><strong>Booking for Slot {{ slot }}!</strong></div>
+		{% endfor %}
+		<br/>
+
+		{% for slot in data.getlist('slot') %}
+			<input type="hidden" name="slot" value="{{ slot }}">
+		{% endfor %}
+
+		{% if data %}
+			<div class="invoice">
+				<div>Name: {{ data.get('full_name') }}</div>
+				<div>Phone Number: {{ data.get('phonenum') }}</div>
+				<div>Email: {{ data.get('emailAdd') }}</div>
+				<div>License Number: {{ data.get('license') }}</div>
+				<div>Plate Number: {{ data.get('plateNum') }}</div><br/>
+
+				<div>Date: <span id="date"></span></div>
+				<div>Booking time: {{ data.get('booking_time') }}</div>
+				<div>Exit time: {{ data.get('exit_time') }}</div><br/>
+
+				<div>Amount: ${{ data.price }}</div>
+			</div>
+		{% endif %}
+
+		<input type= "submit" value="Pay"/>
+
+	</form>
+	
+	<script>
+		n =  new Date();
+		y = n.getFullYear();
+		m = n.getMonth() + 1;
+		d = n.getDate();
+		document.getElementById("date").innerHTML = y + "-" + m + "-" + d;
+	</script>
+
 </body>
 </html>

@@ -19,7 +19,7 @@
 		<h1>Parking Slot Booking</h1>
 		<h2>Personal Details</h2>
 		{% for slot in data.getlist('slot') %}
-			<input type="hidden" name="slot[]" value="{{ slot }}">
+			<input type="hidden" name="slot" value="{{ slot }}">rer
 		{% endfor %}
 		
 		<label for="full_name">Full Name: </label>
