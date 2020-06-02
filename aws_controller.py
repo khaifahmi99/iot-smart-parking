@@ -3,11 +3,8 @@ from boto3.dynamodb.conditions import Key, Attr
 from random import randrange
 import datetime
 from datetime import datetime
-<<<<<<< HEAD
-=======
 import uuid
 import time
->>>>>>> webApplication
 
 dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-2')
 
@@ -29,12 +26,8 @@ def validate_booking(data):
 	email = data.get('emailAdd')
 	license = data.get('license')
 	plateNum = data.get('plateNum')
-<<<<<<< HEAD
-	ts = data.get('ts')
-=======
 	booking_time = data.get('booking_time')
 	exit_time = data.get('exit_time')
->>>>>>> webApplication
 
 	if  name == '':
 		return 0
@@ -46,51 +39,21 @@ def validate_booking(data):
 		return 0
 	elif plateNum == '':
 		return 0
-<<<<<<< HEAD
-	elif ts == '':
-=======
 	elif booking_time == '':
 		return 0
 	elif exit_time == '':
->>>>>>> webApplication
 		return 0
 
 	return data
 
 def save_booking(data):
-<<<<<<< HEAD
-	rate = 2
-	payment_created = datetime.now()
-	ts_payment = payment_created.strftime("%Y-%m-%d %H:%M:%S")
-	book_created = datetime.now()
-	ts_booking = book_created.strftime("%Y-%m-%d %H:%M:%S")
-	payment_cost = payment_created.strftime("%H.%M")
-	book_cost = book_created.strftime("%H.%M")
-	pay_min = int(float(payment_cost)) * 60
-	book_min = (int((float(book_cost))) * 60) - 30
-	price = (pay_min - book_min) * rate
-	setattr(data, 'price', price)
-
-
-=======
 	rate = 7
 	n = 10
->>>>>>> webApplication
 	name = data.get('full_name')
 	phonenum = data.get('phonenum')
 	plateNum = data.get('plateNum')
 	license = data.get('license')
-<<<<<<< HEAD
 
-	users_table = dynamodb.Table('users') 
-
-	users_table.put_item(
-		Item={
-			'user_id' : int(license),
-			'ts_payment' : ts_payment,
-			'user_carplate_number' : plateNum,
-			'user_fee' : price,
-=======
 	booking_time = data.get('booking_time')
 	exit_time = data.get('exit_time')
 	UUID = uuid.uuid1()
@@ -120,15 +83,12 @@ def save_booking(data):
 			'ts_payment' : ts_payment,
 			'user_carplate_number' : plateNum,
 			'user_fee' : int(fee),
->>>>>>> webApplication
 			'user_hasMadePayment' : True,
 			'user_name' : name,
 			'user_phone' : phonenum
 		}
 	)
-<<<<<<< HEAD
-	return data
-=======
+
 
 	parking_spot_table = dynamodb.Table('parking_spot') 
 
@@ -178,5 +138,4 @@ def update_payment(data):
 		}
 	)
 
-	return data 
->>>>>>> webApplication
+	return data

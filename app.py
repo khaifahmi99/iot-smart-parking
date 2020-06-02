@@ -40,8 +40,7 @@ def validate_booking():
 
 	return render_template('payment.html', message=message, data=validData)
 
-<<<<<<< HEAD
-=======
+
 @app.route('/validatePayment', methods = ["POST"])  
 def validate_payment():
 	if request.method == "POST":
@@ -52,7 +51,6 @@ def validate_payment():
 		return render_template('receipt.html', message=message, data=validData)
 
 
->>>>>>> webApplication
 @app.route('/visualisation')
 def visualisation():
 	return render_template('visualisation.html')
