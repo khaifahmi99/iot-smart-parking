@@ -7,6 +7,7 @@
 	<meta name="author" content="Ruby Mae Orfiano" />
 	<title>Parking Slot Booking</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<script src="{{url_for('static',filename='js/validate.js')}}"></script>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/style.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
@@ -18,7 +19,7 @@
 		<h1>Parking Slot Booking</h1>
 		<h2>Personal Details</h2>
 		{% for slot in data.getlist('slot') %}
-			<input type="hidden" name="slot" value="{{ slot }}">
+			<input type="hidden" name="slot" value="{{ slot }}">rer
 		{% endfor %}
 		
 		<label for="full_name">Full Name: </label>
@@ -30,15 +31,11 @@
 		<label for="license">Driver's License Number: </label>
 		<input type="text" name="license" id="license" size="20" /><br /><br />
 		<label for="plateNum">Car's Plate Number: </label>
-		<input type="text" name="plateNum" id="plateNum" size="15" /><br /><br /><br/>
+		<input type="text" name="plateNum" id="plateNum" size="15" /><br /><br />
 
-		<h2>Parking Time Details</h2>
+		<label for="time_booking">Booking time: </label>
+		<input type="text" name="time_booking" id="time_booking" size="50" placeholder="h:m:s" /><br /><br />
 
-		<label for="booking_time">Booking time: </label>
-		<input type="text" name="booking_time" id="booking_time" size="50" placeholder="H:M:S (24hour time)" /><br /><br />
-
-		<label for="exit_time">Exit time: </label>
-		<input type="text" name="exit_time" id="exit_time" size="50" placeholder="H:M:S (24hour time)" /><br /><br />
 
 		<input type= "submit" value="Book"/>
 		<input type= "reset" value="Reset" name="reset"/>

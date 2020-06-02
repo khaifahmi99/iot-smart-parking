@@ -40,6 +40,19 @@ def validate_booking():
 
 	return render_template('payment.html', message=message, data=validData)
 
+<<<<<<< HEAD
+=======
+@app.route('/validatePayment', methods = ["POST"])  
+def validate_payment():
+	if request.method == "POST":
+		message = "Payment successful!"
+		validData = aws_controller.validate_payment(request.form)
+		if validData:
+			validData = aws_controller.update_payment(validData)
+		return render_template('receipt.html', message=message, data=validData)
+
+
+>>>>>>> webApplication
 @app.route('/visualisation')
 def visualisation():
 	return render_template('visualisation.html')

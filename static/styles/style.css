@@ -61,7 +61,12 @@ h1{
   font-family: 'Monkey & Banana';
 }
 
-div.invoice {
+div.invoice, div.slotNum {
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
+
+.receipt {
+  text-align: center;
+}
+
