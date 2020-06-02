@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
 <body>
-	<form id="bookform" method="post" action="http://127.0.0.1:5000/validateBooking" class="form_details" >
+	<form id="bookform" method="post" action="/validateBooking" class="form_details" >
 		{% if error %}
 			<div class="error" style="color:red">{{ error }}</div>
 		{% endif %}

@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}"/>
 </head>
 <body>
-	<form id="paymentform" method="post" action="http://127.0.0.1:5000/validatePayment" class="form_details" >
+	<form id="paymentform" method="post" action="/validatePayment" class="form_details" >
 		<h1>Booking Details</h1>
 		
 		{% for slot in data.getlist('slot') %}
