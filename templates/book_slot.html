@@ -19,12 +19,13 @@
 					<div class="slot_item_content">
 						<img src="{{url_for('static',filename='images/parking.jpg')}}" alt="Parking Spot" title="Filesize 78.1kb" />
 			  			<label for="slot[]" class="desc">
-			  				{{ spot['parking_status'] }}
-			  			</label>
-			  			{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == false %}
-							<input type="checkbox" name="slot" value="{{ spot['parking_spot_id'] }}"/> 
-						{% endif %}
-
+			  				Slot {{ spot['parking_spot_id'] }}
+			  			
+				  			{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == false %}
+								<input type="checkbox" name="slot" value="{{ spot['parking_spot_id'] }}"/> 
+							{% endif %}
+						</label>
+						
 						{% if spot['parking_status'] ==  'Available' and spot['isBooked'] == true %}
 							<p style="color:red;font-size: 0.8em">Booked</p>
 						{% endif %}
