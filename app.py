@@ -1,8 +1,12 @@
 from flask import *
+from flask_cors import CORS
 import aws_controller
 from api import *
 
 app = Flask(__name__)
+CORS(app)
+app.config['SECRET_KEY'] = 'smart parking iot'
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 @app.route('/home')

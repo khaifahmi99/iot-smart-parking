@@ -267,6 +267,8 @@ function processUsers(users) {
 
 
     console.log(arrOfFees);
+    console.log(meanArrOffee);
+    console.log(meanArrOffee);
 
     let chartData = {
         fees: arrOfFees,
