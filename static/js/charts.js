@@ -43,10 +43,8 @@ async function draw() {
     drawDoughnutChart("chartParkingStatus", "parkingSpinner", ["Available", "Occupied"], [currentData["available"], currentData["occupied"]]);
     drawDoughnutChart("chartBookingStatus", "bookingSpinner", ["Booked", "Unbooked"], [currentData["booked"], currentData["unbooked"]]);
 
-
     drawBarChart("chartUsersPerDate", "usersSpinner", usersData["dates"], "users", usersData["usersPerDate"], "red");
     drawBarChart("chartRevenuePerDate", "revenueSpinner", usersData["dates"], "revenue", usersData["fees"], "purple");
-
 
     drawLineChart("chartParkingOverview", "overviewSpinner", overviewData["labels"], overviewData["dataset"]);
 }
@@ -112,6 +110,7 @@ function drawBarChart(chartId, spinnerId, labels, title, dataSet, color) {
     let spinner = document.getElementById(spinnerId);
     spinner.style.display = 'none';
 
+    console.log(dataSet);
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -226,7 +225,7 @@ function processUsers(users) {
 
     for (let i = 0; i < users.length; i++) {
 
-        meanOfFee += users[i].user_fee;
+        meanOfFee += parseFloat(users[i].user_fee);
         tempDate = users[i].ts_payment.split(" ");
         if (!arrOfDates.includes(tempDate[0]))
             arrOfDates.push(tempDate[0]);
@@ -236,7 +235,7 @@ function processUsers(users) {
                 tempIndex++;
 
             count = 1;
-            feePerDate = users[i].user_fee;
+            feePerDate = parseFloat(users[i].user_fee);
 
             if (count == 1) {
                 arrOfDateOccurences[tempIndex] = count;
@@ -247,7 +246,7 @@ function processUsers(users) {
 
         } else {
             count++;
-            feePerDate += users[i].user_fee;
+            feePerDate += parseFloat(users[i].user_fee);
 
             arrOfDateOccurences[tempIndex] = count;
             arrOfFees[tempIndex] = feePerDate;
@@ -255,7 +254,6 @@ function processUsers(users) {
 
         labels.push(tempDate[0]);
     }
-
 
     meanOfFee /= users.length;
     //  medianOfFee = getMedian(arrOfFees); 
@@ -267,8 +265,6 @@ function processUsers(users) {
 
 
     console.log(arrOfFees);
-    console.log(meanArrOffee);
-    console.log(meanArrOffee);
 
     let chartData = {
         fees: arrOfFees,
