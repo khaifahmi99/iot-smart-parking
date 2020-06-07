@@ -1,6 +1,7 @@
 import boto3
 import json
 import decimal
+from flask import jsonify
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -30,7 +31,7 @@ def get_parking_info():
         'unit-code': 'COS30011',
         'parking_spot': obj
     }
-    return json.dumps(parking_info)
+    return jsonify(parking_info)
 
 def get_overview_info():
     table = boto3.resource('dynamodb', region_name='ap-southeast-2').Table('parking_overview')
@@ -60,7 +61,7 @@ def get_overview_info():
         'unit-code': 'COS30011',
         'areas': area_array
     }
-    return json.dumps(parking_info, cls=DecimalEncoder)
+    return jsonify(parking_info)
 
 def get_user_info():
     table = boto3.resource('dynamodb', region_name='ap-southeast-2').Table('users')
@@ -83,4 +84,4 @@ def get_user_info():
         'unit-code': 'COS30011',
         'users': obj
     }
-    return json.dumps(user_info, cls=DecimalEncoder)
+    return jsonify(user_info)
